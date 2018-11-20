@@ -1,0 +1,79 @@
+@import '../node_modules/bootstrap/dist/css/bootstrap-grid.min.css';
+@import '../node_modules/bootstrap/dist/css/bootstrap-reboot.min.css';
+@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import '../node_modules/font-awesome/css/font-awesome.min.css';
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.img-character{
+  width: 175px;
+  height: 160px;
+}
+
+.character-name{
+  max-width: 17ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: cursive;
+}
+
+.result-limit-characters{
+  display: flex;
+  position: relative;
+  width: 230px;
+}
+.result-limit-label{
+  margin: 7px 10px;
+}
+
+.orderby-characters{
+  float: right;
+  display: block;
+  margin: -30px 10px;
+}
+
+.container-character{
+  cursor: pointer;
+  display: inline-block
+}
+
+.active{
+  color: #357bc3 !important;
+}
+
+.backgroud-opacity{z-index: 5}
+
+
+/***********************************************************/
+@media screen and (max-width: 583px) {
+
+  .orderby-characters {
+    float: none;
+    display: flex;
+    margin: 12px 10px;
+  }
+
+  .navbar-header {
+    margin-left: -20%;
+  }
+
+  .fadeIn-animation {
+    margin-left: 11%;
+  }
+}
+
+@media screen and (max-width: 710px) {
+  .img-character {
+    width: 138px;
+    height: 135px;
+  }
+
+  .character-name {
+    max-width: 14ch
+  }
+}

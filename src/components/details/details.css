@@ -1,0 +1,14 @@
+.max-height {
+    max-height: 226px;
+}
+
+.image {
+    max-height: 220px;
+    width: auto;
+    float: left;
+}
+
+.card {
+    display: block;
+}
+
