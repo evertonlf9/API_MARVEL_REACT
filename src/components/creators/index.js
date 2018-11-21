@@ -22,7 +22,7 @@ class Character extends Component {
         this.handlePageChange = this.handlePageChange.bind(this);
         this.handlePreviousPages = this.handlePreviousPages.bind(this);
         this.handleSelectOrderByChange = this.handleSelectOrderByChange.bind(this);
-        this.createListCharacters = this.createListCharacters.bind(this);
+        this.createListCreators = this.createListCreators.bind(this);
 
         this.state = {
             filters: {
@@ -48,12 +48,12 @@ class Character extends Component {
         this.setState({ loading: true });
         const {limitPerPage, filters, exactMatch} = this.state;
 
-        options.type = 'characters';
+        options.type = 'creators';
 
         const {page, name, limit, type, sortName,
         } = Object.assign({
             page: 1,
-            type: "characters",
+            type: "creators",
             name: filters.name,
             sortName: this.state.sortName,
             limit: options.limitPerPage || limitPerPage,
@@ -78,13 +78,13 @@ class Character extends Component {
             });
     };
 
-    moreInfo(character, e){
-        this.props.history.push('/characters/' + character.id);
+    moreInfo(creator, e){
+        this.props.history.push('/creaters/' + creator.id);
     }
 
-    getImage(character){
-        if(character.thumbnail) {
-            return character.thumbnail.path + '.' + character.thumbnail.extension;
+    getImage(creator){
+        if(creator.thumbnail) {
+            return creator.thumbnail.path + '.' + creator.thumbnail.extension;
         }
         return '';
     }
@@ -118,19 +118,17 @@ class Character extends Component {
         this.search({page});
     }
 
-    createListCharacters(){
+    createListCreators(){
 
         const { data } = this.state;
-        return( data.map((character) =>
-                <div  key={character.id} className="ui card fadeIn-animation container-character" onClick={this.moreInfo.bind(this, character)}>
-
+        return( data.map((creator) =>
+                <div  key={creator.id} className="ui card fadeIn-animation container-character" onClick={this.moreInfo.bind(this, creator)}>
                     <div className="image">
-                        <img src={this.getImage(character)} className="rounded img-thumbnail img-character" alt="Responsive image"/>
+                        <img src={this.getImage(creator)} className="rounded img-thumbnail img-character" alt="Responsive image"/>
                     </div>
-
                     <div className="content">
-                        <div className="header character-name" data-toggle="tooltip" data-placement="top" title={character.name}>
-                            {character.name}
+                        <div className="header character-name" data-toggle="tooltip" data-placement="top" title={creator.fullName}>
+                            {creator.fullName || '-'}
                         </div>
                     </div>
 
@@ -212,7 +210,7 @@ class Character extends Component {
 
                             <div className="card p-0 mt-3">
                                 <div className="p-3 mt-3">
-                                    { this.createListCharacters()}
+                                    { this.createListCreators()}
                                 </div>
                             </div>
                         }

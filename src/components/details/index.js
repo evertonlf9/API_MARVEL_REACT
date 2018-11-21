@@ -21,8 +21,14 @@ class Details extends Component {
 
     search (){
         this.setState({ loading: true });
-        const type = this.props.match.url.match('characters') != null ? "characters" : "comics",
-              id = this.props.match.params.id;
+        let type = '';
+        const id = this.props.match.params.id;
+
+        if(this.props.match.url.match('characters') != null)
+            type = 'characters';
+        else if(this.props.match.url.match('creaters') != null)
+            type = 'creators';
+        else type = 'comics';
 
         getMarvel({ id, type })
             .then(({ data }) => {
@@ -36,6 +42,7 @@ class Details extends Component {
     };
 
     getImage(details){
+
         if(details && details.thumbnail) {
             return details.thumbnail.path + '.' + details.thumbnail.extension;
         }
@@ -55,7 +62,7 @@ class Details extends Component {
 
                 <div className="card jumbotron jumbotron-background">
                     <div className="text-description">
-                        <h1>{details && (details.title || details.name)}</h1>
+                        <h1>{details && (details.title || details.name || details.fullName)}</h1>
                         {details && details.description && <p className="lead">{details.description}</p>}
                     </div>
                 </div>
@@ -86,5 +93,4 @@ class Details extends Component {
 }
 
 const mapStateToProps = state => ({});
-
 export default connect(mapStateToProps)(withRouter(Details));

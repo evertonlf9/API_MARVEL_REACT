@@ -15,7 +15,6 @@ class Character extends Component {
 
         this.search = this.search.bind(this);
         this.moreInfo = this.moreInfo.bind(this);
-        this.getImage = this.getImage.bind(this);
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleNextPages = this.handleNextPages.bind(this);
@@ -48,12 +47,12 @@ class Character extends Component {
         this.setState({ loading: true });
         const {limitPerPage, filters, exactMatch} = this.state;
 
-        options.type = 'characters';
+        options.type = 'stories';
 
         const {page, name, limit, type, sortName,
         } = Object.assign({
             page: 1,
-            type: "characters",
+            type: "stories",
             name: filters.name,
             sortName: this.state.sortName,
             limit: options.limitPerPage || limitPerPage,
@@ -79,14 +78,7 @@ class Character extends Component {
     };
 
     moreInfo(character, e){
-        this.props.history.push('/characters/' + character.id);
-    }
-
-    getImage(character){
-        if(character.thumbnail) {
-            return character.thumbnail.path + '.' + character.thumbnail.extension;
-        }
-        return '';
+        // this.props.history.push('/characters/' + character.id);
     }
 
     handleNameChange (evt) {
@@ -124,13 +116,9 @@ class Character extends Component {
         return( data.map((character) =>
                 <div  key={character.id} className="ui card fadeIn-animation container-character" onClick={this.moreInfo.bind(this, character)}>
 
-                    <div className="image">
-                        <img src={this.getImage(character)} className="rounded img-thumbnail img-character" alt="Responsive image"/>
-                    </div>
-
                     <div className="content">
-                        <div className="header character-name" data-toggle="tooltip" data-placement="top" title={character.name}>
-                            {character.name}
+                        <div className="header character-name" data-toggle="tooltip" data-placement="top" title={character.title}>
+                            {character.title}
                         </div>
                     </div>
 
