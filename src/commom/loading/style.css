@@ -18,3 +18,7 @@
     animation-delay: .2s; }
   .Loading.h1 span:nth-child(3) {
     animation-delay: .4s; }
+
+.Loading {
+  margin: 10% 0;
+}

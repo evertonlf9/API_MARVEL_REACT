@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import Main from '../../commom/main';
-import { getMarvel } from '../../commom/apiCalls';
+import { getMarvel } from '../../commom/libs/apiCalls';
 import Paginator from '../../commom/paginator';
 import Loading from '../../commom/loading';
+import Select from '../../commom/select';
+import Search from '../../commom/search';
 
 class Character extends Component {
     constructor(props){
@@ -18,11 +22,10 @@ class Character extends Component {
         this.handlePageChange = this.handlePageChange.bind(this);
         this.handlePreviousPages = this.handlePreviousPages.bind(this);
         this.handleSelectOrderByChange = this.handleSelectOrderByChange.bind(this);
-        this.createOrderBy = this.createOrderBy.bind(this);
-        this.createListComics = this.createListComics.bind(this);
+        this.createListCharacters = this.createListCharacters.bind(this);
 
         this.state = {
-            limits: [20, 40, 60, 100],
+            limits: [ {value: 20, label: 20}, {value: 40, label: 40}, {value: 60, label: 60}, {value: 100, label: 100}],
             orderBy:[
                 {value: "name", label: "Name ASC."},
                 {value: "modified", label: "Modificado ASC."},
@@ -48,24 +51,26 @@ class Character extends Component {
         this.search();
     }
 
-    search (options){
+    search (options = {}){
 
         this.setState({ loading: true });
         const {limitPerPage, filters, exactMatch} = this.state;
 
-        const {page, title, limit, type, sortName,
+        options.type = 'characters';
+
+        const {page, name, limit, type, sortName,
         } = Object.assign({
             page: 1,
             type: "characters",
-            title: filters.title,
+            name: filters.name,
             sortName: this.state.sortName,
-            limit: limitPerPage,
+            limit: options.limitPerPage || limitPerPage,
             exactMatch: exactMatch
         }, options);
 
         const offset = page ? (page - 1) * limit : 0;
 
-        getMarvel({ offset, title, sortName, limit, type, exactMatch })
+        getMarvel({ offset, name, sortName, limit, type, exactMatch })
             .then(({ data, maxPage }) => {
 
                 this.setState({
@@ -76,25 +81,24 @@ class Character extends Component {
                 });
 
             })
-            .catch((error) => {});
-
+            .catch((error) => {
+                this.setState({loading: false});
+            });
     };
 
-    moreInfo(comic, e){
-        this.props.history.push('/characters/' + comic.id);
+    moreInfo(character, e){
+        this.props.history.push('/characters/' + character.id);
     }
 
-    getImage(comic){
-
-        if(comic.thumbnail) {
-            return comic.thumbnail.path + '.' + comic.thumbnail.extension;
+    getImage(character){
+        if(character.thumbnail) {
+            return character.thumbnail.path + '.' + character.thumbnail.extension;
         }
-
         return '';
     }
 
     handleNameChange (evt) {
-        this.setState({filters: {...this.state.filters, title: evt.target.value} });
+        this.setState({filters: {...this.state.filters, name: evt.target.value} });
     }
 
     handleSelectChange (event) {
@@ -122,46 +126,19 @@ class Character extends Component {
         this.search({page});
     }
 
-    createSelectLimit(){
-        const {limits, limitPerPage} = this.state;
-        return (
-            <span className="result-limit-characters">
-                <label className="result-limit-label">Result Limit:</label>
-                <select name="sub_type" className="form-control"  onChange={this.handleSelectChange} value={limitPerPage} disabled={this.state.loading}>
-                    {
-                        limits.map((value)=> <option key={value} value={value}>{value}</option>)
-                    }
-                </select>
-            </span>
-)
-    }
-
-    createOrderBy(){
-
-        const {orderBy, sortName} = this.state;
-        return (
-            <span className="orderby-characters">
-                <label className="result-limit-label">Ordenar por:</label>
-                <select name="sub_type" className="form-control"  onChange={this.handleSelectOrderByChange} value={sortName} disabled={this.state.loading}>
-                    { orderBy.map((order)=> <option key={order.value} value={order.value}>{order.label}</option>) }
-                </select>
-            </span>
-        );
-    }
-
-    createListComics(){
+    createListCharacters(){
 
         const { data } = this.state;
-        return( data.map((comic) =>
-                <div  key={comic.id} className="ui card fadeIn-animation container-character" onClick={this.moreInfo.bind(this, comic)}>
+        return( data.map((character) =>
+                <div  key={character.id} className="ui card fadeIn-animation container-character" onClick={this.moreInfo.bind(this, character)}>
 
                     <div className="image">
-                        <img src={this.getImage(comic)} className="rounded img-thumbnail img-character" alt="Responsive image"/>
+                        <img src={this.getImage(character)} className="rounded img-thumbnail img-character" alt="Responsive image"/>
                     </div>
 
                     <div className="content">
-                        <div className="header character-name" data-toggle="tooltip" data-placement="top" title={comic.title}>
-                            {comic.title}
+                        <div className="header character-name" data-toggle="tooltip" data-placement="top" title={character.name}>
+                            {character.name}
                         </div>
                     </div>
 
@@ -172,7 +149,7 @@ class Character extends Component {
 
 
     render(){
-        const {filters, page, maxPage} = this.state;
+        const {filters, page, maxPage, limits, limitPerPage, orderBy, sortName, data} = this.state;
 
         return (
             <Main>
@@ -181,14 +158,45 @@ class Character extends Component {
                     <div className="col-12">
                         <div className="card p-4 mt-5">
                             <div className="input-group mb-3">
-                                <input type="text" className="form-control w-25 m-1" placeholder="Pesquisar personagens" onChange={this.handleNameChange} value={filters.title}/>
-                                <button type="button" className="btn btn-white btn-rounded" onClick={this.search} disabled={this.state.loading}>
-                                    <i className="fa fa-search"></i>
-                                </button>
+
+                                <Search
+                                    disabled={this.state.loading}
+                                    value={filters.name}
+                                    handleChange={this.handleNameChange}
+                                    handleClick={this.search}
+                                    placeholder={'Pesquisar personagens'}
+                                    classContainer={'input-group mb-3'}
+                                    classInput={'form-control w-25 m-1'}
+                                    classButton={'btn btn-white btn-rounded'}
+                                    classIcon={'fa fa-search'}
+                                />
+
                             </div>
                             <div>
-                                {this.createSelectLimit()}
-                                {this.createOrderBy()}
+
+                                <Select
+                                    key={'result-limit'}
+                                    label={'Result Limit:'}
+                                    options={limits}
+                                    disabled={this.state.loading}
+                                    value={limitPerPage}
+                                    handleChange={this.handleSelectChange}
+                                    classSpan={'result-limit-characters'}
+                                    classLabel={'result-limit-label'}
+                                    classSelect={'form-control select-width'}
+                                />
+
+                                <Select
+                                    key={'orderBy'}
+                                    label={'Ordenar por:'}
+                                    options={orderBy}
+                                    disabled={this.state.loading}
+                                    value={sortName}
+                                    handleChange={this.handleSelectOrderByChange}
+                                    classSpan={'orderby-characters'}
+                                    classLabel={'result-limit-label'}
+                                    classSelect={'form-control select-width inline-block'}
+                                />
                             </div>
                         </div>
                     </div>
@@ -196,17 +204,29 @@ class Character extends Component {
                     <div className="col-12">
                         {this.state.loading && <Loading />}
 
-                        {!this.state.loading &&
+                        {(!this.state.loading && data.length == 0) &&
+                        <div  className="ui card fadeIn-animation container-character">
+                            <div className="content">
+                                <div className="header result-not-found">
+                                    Nem um resultado foi encontrado!
+                                </div>
+                            </div>
+
+                        </div>
+                        }
+
+                        {(!this.state.loading && data.length > 0) &&
 
                             <div className="card p-0 mt-3">
                                 <div className="p-3 mt-3">
-                                    { this.createListComics()}
+                                    { this.createListCharacters()}
                                 </div>
                             </div>
                         }
                     </div>
                     <div className="col-12">
-                        {!this.state.loading && <Paginator ref={paginator => this.paginator = paginator}
+                        {(!this.state.loading && data.length > 0) &&
+                            <Paginator ref={paginator => this.paginator = paginator}
                                    page={page}
                                    maxPage={maxPage}
                                    onChangePage={this.handlePageChange}
@@ -218,4 +238,6 @@ class Character extends Component {
         )
     }
 }
-export default withRouter(Character);
+const mapStateToProps = state => ({});
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Character));

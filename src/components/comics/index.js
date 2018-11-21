@@ -1,9 +1,14 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import Main from '../../commom/main';
-import { getMarvel } from '../../commom/apiCalls';
+import { getMarvel } from '../../commom/libs/apiCalls';
 import Paginator from '../../commom/paginator';
 import Loading from '../../commom/loading';
+import Select from '../../commom/select';
+import Search from '../../commom/search';
+import  { change } from './comicsAcition';
 
 class Comics extends Component {
     constructor(props){
@@ -18,12 +23,10 @@ class Comics extends Component {
         this.handlePageChange = this.handlePageChange.bind(this);
         this.handlePreviousPages = this.handlePreviousPages.bind(this);
         this.handleSelectOrderByChange = this.handleSelectOrderByChange.bind(this);
-        this.createOrderBy = this.createOrderBy.bind(this);
-        // this.orderByCharacters = this.orderByCharacters.bind(this);
         this.createListComics = this.createListComics.bind(this);
 
         this.state = {
-            limits: [20, 40, 60, 100],
+            limits: [ {value: 20, label: 20}, {value: 40, label: 40}, {value: 60, label: 60}, {value: 100, label: 100}],
             orderBy:[
                 {value: "title", label: "Titulo ASC."},
                 {value: "modified", label: "Modificado ASC."},
@@ -53,18 +56,19 @@ class Comics extends Component {
         this.search();
     }
 
-    search (options){
+    search (options = {}){
 
         this.setState({ loading: true });
         const {limitPerPage, filters, exactMatch} = this.state;
 
+        options.type = 'comics';
         const {page, title, limit, type, sortName,
         } = Object.assign({
             page: 1,
             type: "comics",
             title: filters.title,
             sortName: this.state.sortName,
-            limit: limitPerPage,
+            limit: options.limitPerPage || limitPerPage,
             exactMatch: exactMatch
         }, options);
 
@@ -81,7 +85,9 @@ class Comics extends Component {
                 });
 
             })
-            .catch((error) => {});
+            .catch((error) => {
+                this.setState({loading: false});
+            });
 
     };
 
@@ -90,7 +96,6 @@ class Comics extends Component {
     }
 
     getImage(comic){
-
         if(comic.thumbnail) {
             return comic.thumbnail.path + '.' + comic.thumbnail.extension;
         }
@@ -103,12 +108,15 @@ class Comics extends Component {
     }
 
     handleSelectChange (event) {
+        console.log('state: ', this.state.limitPerPage);
         this.setState({...this.state, limitPerPage: event.target.value});
+        console.log('event: ',  event.target.value, 'state: ', this.state.limitPerPage);
         this.search({limitPerPage: event.target.value });
     }
 
     handleSelectOrderByChange(event){
         this.setState({...this.state, sortName: event.target.value});
+        console.log('event: ',  event.target.value, 'state: ', this.state.sortName);
         this.search({sortName: event.target.value});
     }
 
@@ -125,33 +133,6 @@ class Comics extends Component {
     handlePageChange(page){
         this.setState({...this.state, page});
         this.search({page});
-    }
-
-    createSelectLimit(){
-        const {limits, limitPerPage} = this.state;
-        return (
-            <span className="result-limit-characters">
-                <label className="result-limit-label">Result Limit:</label>
-                <select name="sub_type" className="form-control"  onChange={this.handleSelectChange} value={limitPerPage} disabled={this.state.loading}>
-                    {
-                        limits.map((value)=> <option key={value} value={value}>{value}</option>)
-                    }
-                </select>
-            </span>
-)
-    }
-
-    createOrderBy(){
-
-        const {orderBy, sortName} = this.state;
-        return (
-            <span className="orderby-characters">
-                <label className="result-limit-label">Ordenar por:</label>
-                <select name="sub_type" className="form-control"  onChange={this.handleSelectOrderByChange} value={sortName} disabled={this.state.loading}>
-                    { orderBy.map((order)=> <option key={order.value} value={order.value}>{order.label}</option>) }
-                </select>
-            </span>
-        );
     }
 
     createListComics(){
@@ -175,9 +156,8 @@ class Comics extends Component {
         );
     }
 
-
     render(){
-        const {filters, page, maxPage} = this.state;
+        const {filters, page, maxPage, limits, limitPerPage, orderBy, sortName, data} = this.state;
 
         return (
             <Main>
@@ -185,15 +165,44 @@ class Comics extends Component {
 
                     <div className="col-12">
                         <div className="card p-4 mt-5">
-                            <div className="input-group mb-3">
-                                <input type="text" className="form-control w-25 m-1" placeholder="Pesquisar quadrinho" onChange={this.handleNameChange} value={filters.title}/>
-                                <button type="button" className="btn btn-white btn-rounded" onClick={this.search} disabled={this.state.loading}>
-                                    <i className="fa fa-search"></i>
-                                </button>
-                            </div>
-                            <div>
-                                {this.createSelectLimit()}
-                                {this.createOrderBy()}
+
+                            <Search
+                                disabled={this.state.loading}
+                                value={filters.title}
+                                handleChange={this.handleNameChange}
+                                handleClick={this.search}
+                                placeholder={'Pesquisar quadrinhos'}
+                                classContainer={'input-group mb-3'}
+                                classInput={'form-control w-25 m-1'}
+                                classButton={'btn btn-white btn-rounded'}
+                                classIcon={'fa fa-search'}
+                            />
+
+                            <div className="inline-block">
+
+                                <Select
+                                    name={'result-limit'}
+                                    label={'Result Limit:'}
+                                    options={limits}
+                                    disabled={this.state.loading}
+                                    value={limitPerPage}
+                                    handleChange={this.handleSelectChange}
+                                    classSpan={'result-limit-characters'}
+                                    classLabel={'result-limit-label'}
+                                    classSelect={'form-control select-width'}
+                                />
+
+                                <Select
+                                    name={'orderBy'}
+                                    label={'Ordenar por:'}
+                                    options={orderBy}
+                                    disabled={this.state.loading}
+                                    value={sortName}
+                                    handleChange={this.handleSelectOrderByChange}
+                                    classSpan={'orderby-characters'}
+                                    classLabel={'result-limit-label'}
+                                    classSelect={'form-control select-width inline-block'}
+                                />
                             </div>
                         </div>
                     </div>
@@ -201,7 +210,18 @@ class Comics extends Component {
                     <div className="col-12">
                         {this.state.loading && <Loading />}
 
-                        {!this.state.loading &&
+                        {(!this.state.loading && data.length === 0) &&
+                            <div  className="ui card fadeIn-animation container-character">
+                                <div className="content">
+                                    <div className="header result-not-found">
+                                       Nem um resultado foi encontrado!
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+
+                        {(!this.state.loading && data.length > 0) &&
 
                             <div className="card p-0 mt-3">
                                 <div className="p-3 mt-3">
@@ -211,7 +231,8 @@ class Comics extends Component {
                         }
                     </div>
                     <div className="col-12">
-                        {!this.state.loading && <Paginator ref={paginator => this.paginator = paginator}
+                        {(!this.state.loading && data.length > 0) &&
+                            <Paginator ref={paginator => this.paginator = paginator}
                                    page={page}
                                    maxPage={maxPage}
                                    onChangePage={this.handlePageChange}
@@ -223,4 +244,7 @@ class Comics extends Component {
         )
     }
 }
-export default withRouter(Comics);
+
+const mapStateToProps = state => ({limits: state.comics.limits, orderBy: state.comics.orderBy });
+const mapDispatchToProps = dispatch => bindActionCreators({change}, dispatch);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Comics));

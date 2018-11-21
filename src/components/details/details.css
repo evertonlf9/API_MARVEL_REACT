@@ -1,14 +1,23 @@
-.max-height {
-    max-height: 226px;
+.max-and-min-height {
+    min-height: 315px;
+    max-height: 350px;
 }
 
-.image {
+.image-details {
     max-height: 220px;
     width: auto;
     float: left;
 }
 
-.card {
+.card-image-details {
     display: block;
 }
 
+.jumbotron-background {
+    min-height: 355px;
+    background: white;
+}
+
+.padding{
+    padding: 10% 10%;
+}

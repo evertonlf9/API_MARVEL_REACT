@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Main from '../../commom/main';
-import {getMarvel} from "../../commom/apiCalls";
+import {getMarvel} from "../../commom/libs/apiCalls";
 import picture from '../../assets/images/marvel.jpg';
 import './details.css';
+import {withRouter} from "react-router-dom";
 
 
-class Status extends Component {
+class Details extends Component {
     constructor(props){
         super(props);
 
@@ -44,16 +46,18 @@ class Status extends Component {
         const {details} = this.state;
 
         return(
-            <div className="p-3 mt-4">
-                <div className="ui card fadeIn-animation">
-                    <div className="image">
-                        {details && <img src={this.getImage(details)} className="rounded img-thumbnail max-height" alt="Responsive image"/>}
+            <div className="padding">
+                <div className="ui card fadeIn-animation card-image-details">
+                    <div className="image image-details">
+                        {details && <img src={this.getImage(details)} className="rounded img-thumbnail max-and-min-height" alt="Responsive image"/>}
                     </div>
                 </div>
 
-                <div className="jumbotron">
-                    <h1>{details && (details.title || details.name)}</h1>
-                    {details && details.description && <p className="lead">{details.description}</p>}
+                <div className="card jumbotron jumbotron-background">
+                    <div className="text-description">
+                        <h1>{details && (details.title || details.name)}</h1>
+                        {details && details.description && <p className="lead">{details.description}</p>}
+                    </div>
                 </div>
             </div>
         )
@@ -81,4 +85,6 @@ class Status extends Component {
     }
 }
 
-export  default Status;
+const mapStateToProps = state => ({});
+
+export default connect(mapStateToProps)(withRouter(Details));

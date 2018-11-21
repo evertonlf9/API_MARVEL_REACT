@@ -7,6 +7,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background: #ededed;
 }
 
 .img-character{
@@ -48,6 +49,38 @@ body {
 
 .backgroud-opacity{z-index: 5}
 
+.menu-nav {
+  right: 0;
+  width: auto !important;
+  padding: 0 30px;
+}
+
+.navbar-toggler-right{
+  z-index: 9999;
+  cursor: pointer;
+}
+
+.inline-block{
+  display: inline-block;
+}
+
+.result-limit-label {
+  margin: 7px 10px;
+}
+
+.result-limit-characters {
+  display: flex;
+  position: relative;
+  width: 230px;
+}
+
+.select-width {
+  width: auto;
+}
+
+.result-not-found {
+  padding: 10px 10px;
+}
 
 /***********************************************************/
 @media screen and (max-width: 583px) {
@@ -59,7 +92,7 @@ body {
   }
 
   .navbar-header {
-    margin-left: -20%;
+    margin-left: -11%;
   }
 
   .fadeIn-animation {
