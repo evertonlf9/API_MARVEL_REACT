@@ -10,16 +10,34 @@ import {withRouter} from "react-router-dom";
 class Details extends Component {
     constructor(props){
         super(props);
-
-        this.search = this.search.bind(this);
-        this.getImage = this.getImage.bind(this);
     }
 
+    // É executado quando o componente estiver prestes a ser montado no DOM da página.
     componentWillMount() {
         this.search();
     }
 
-    search (){
+    // O método que é executado depois que o componente foi montado no DOM.
+    componentDidMount() {
+
+    }
+
+    // O componente recebe novas props ou estado, o React re-renderiza ou pode ignorar a renderização do componente.
+    // shouldComponentUpdate (nextProps, nextState){
+    //     let shouldUpdate = this.props.status !== nextProps.status;
+    //     return shouldUpdate;
+    // }
+
+    // É executado quando as props mudaram e não são processados ​​pela primeira vez.
+    componentWillReceiveProps(nextProps) {
+
+    }
+
+    // O componente não é mais necessário e será desmontado do DOM.
+    componentWillUnmount() {
+
+    }
+    search = () => {
         this.setState({ loading: true });
         let type = '';
         const id = this.props.match.params.id;
@@ -41,7 +59,7 @@ class Details extends Component {
 
     };
 
-    getImage(details){
+    getImage = (details) => {
 
         if(details && details.thumbnail) {
             return details.thumbnail.path + '.' + details.thumbnail.extension;
@@ -49,7 +67,7 @@ class Details extends Component {
         return '';
     }
 
-    createDescription(){
+    createDescription = () => {
         const {details} = this.state;
 
         return(

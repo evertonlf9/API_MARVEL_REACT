@@ -14,17 +14,6 @@ class Comics extends Component {
     constructor(props){
         super(props);
 
-        this.search = this.search.bind(this);
-        this.moreInfo = this.moreInfo.bind(this);
-        this.getImage = this.getImage.bind(this);
-        this.handleSelectChange = this.handleSelectChange.bind(this);
-        this.handleNameChange = this.handleNameChange.bind(this);
-        this.handleNextPages = this.handleNextPages.bind(this);
-        this.handlePageChange = this.handlePageChange.bind(this);
-        this.handlePreviousPages = this.handlePreviousPages.bind(this);
-        this.handleSelectOrderByChange = this.handleSelectOrderByChange.bind(this);
-        this.createListComics = this.createListComics.bind(this);
-
         this.state = {
 
             filters: {
@@ -37,15 +26,38 @@ class Comics extends Component {
             limitPerPage: 20,
             exactMatch: false,
             loading: false,
-            data: [],
+            data: []
         }
     }
 
+    // É executado quando o componente estiver prestes a ser montado no DOM da página.
     componentWillMount() {
         this.search();
     }
 
-    search (options = {}){
+    // O método que é executado depois que o componente foi montado no DOM.
+    componentDidMount() {
+        alert('finish');
+    }
+
+    // O componente recebe novas props ou estado, o React re-renderiza ou pode ignorar a renderização do componente.
+    // shouldComponentUpdate (nextProps, nextState){
+    //     alert('update');
+    //     // let shouldUpdate = this.props.status !== nextProps.status;
+    //     // return shouldUpdate;
+    // }
+
+    // É executado quando as props mudaram e não são processados ​​pela primeira vez.
+    componentWillReceiveProps(nextProps) {
+        alert('update Props');
+    }
+
+    // O componente não é mais necessário e será desmontado do DOM.
+    componentWillUnmount() {
+        alert('destroy');
+    }
+
+    search = (options = {}) => {
 
         this.setState({ loading: true });
         const {limitPerPage, filters, exactMatch} = this.state;
@@ -80,54 +92,55 @@ class Comics extends Component {
 
     };
 
-    moreInfo(comic, e){
+    moreInfo = (comic, e) => {
         this.props.history.push('/comics/' + comic.id);
-    }
+    };
 
-    getImage(comic){
+    getImage = (comic) => {
         if(comic.thumbnail) {
             return comic.thumbnail.path + '.' + comic.thumbnail.extension;
         }
 
         return '';
-    }
+    };
 
-    handleNameChange (evt) {
+    handleNameChange = (evt) => {
         this.setState({filters: {...this.state.filters, title: evt.target.value} });
-    }
+    };
 
-    handleSelectChange (event) {
+    handleSelectChange = (event) => {
         console.log('state: ', this.state.limitPerPage);
         this.setState({...this.state, limitPerPage: event.target.value});
         console.log('event: ',  event.target.value, 'state: ', this.state.limitPerPage);
         this.search({limitPerPage: event.target.value });
-    }
+    };
 
-    handleSelectOrderByChange(event){
+    handleSelectOrderByChange = (event) => {
         this.setState({...this.state, sortName: event.target.value});
         console.log('event: ',  event.target.value, 'state: ', this.state.sortName);
         this.search({sortName: event.target.value});
-    }
+    };
 
-    handleNextPages(maxPage){
+    handleNextPages = (maxPage) => {
         this.handlePageChange(maxPage + 1);
-    }
+    };
 
-    handlePreviousPages(minPage){
+    handlePreviousPages = (minPage) => {
         if (minPage > 1) {
             this.handlePageChange(minPage - 1)
         }
-    }
+    };
 
-    handlePageChange(page){
+    handlePageChange = (page) => {
         this.setState({...this.state, page});
         this.search({page});
-    }
+    };
 
-    createListComics(){
+    createListComics  = () => {
 
         const { data } = this.state;
-        return( data.map((comic) =>
+        return(
+            data.map((comic) =>
                 <div  key={comic.id} className="ui card fadeIn-animation container-character" onClick={this.moreInfo.bind(this, comic)}>
 
                     <div className="image">
@@ -139,10 +152,10 @@ class Comics extends Component {
                             {comic.title}
                         </div>
                     </div>
-
                 </div>
             )
-        );
+        )
+
     }
 
     render(){

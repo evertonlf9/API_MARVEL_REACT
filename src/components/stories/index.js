@@ -13,16 +13,6 @@ class Character extends Component {
     constructor(props){
         super(props);
 
-        this.search = this.search.bind(this);
-        this.moreInfo = this.moreInfo.bind(this);
-        this.handleSelectChange = this.handleSelectChange.bind(this);
-        this.handleNameChange = this.handleNameChange.bind(this);
-        this.handleNextPages = this.handleNextPages.bind(this);
-        this.handlePageChange = this.handlePageChange.bind(this);
-        this.handlePreviousPages = this.handlePreviousPages.bind(this);
-        this.handleSelectOrderByChange = this.handleSelectOrderByChange.bind(this);
-        this.createListCharacters = this.createListCharacters.bind(this);
-
         this.state = {
             filters: {
                 name: ""
@@ -34,15 +24,37 @@ class Character extends Component {
             limitPerPage: 20,
             exactMatch: false,
             loading: false,
-            data: [],
+            data: []
         }
     }
 
+    // É executado quando o componente estiver prestes a ser montado no DOM da página.
     componentWillMount() {
         this.search();
     }
 
-    search (options = {}){
+    // O método que é executado depois que o componente foi montado no DOM.
+    componentDidMount() {
+
+    }
+
+    // O componente recebe novas props ou estado, o React re-renderiza ou pode ignorar a renderização do componente.
+    // shouldComponentUpdate (nextProps, nextState){
+    //     let shouldUpdate = this.props.status !== nextProps.status;
+    //     return shouldUpdate;
+    // }
+
+    // É executado quando as props mudaram e não são processados ​​pela primeira vez.
+    componentWillReceiveProps(nextProps) {
+
+    }
+
+    // O componente não é mais necessário e será desmontado do DOM.
+    componentWillUnmount() {
+
+    }
+
+    search = (options = {}) => {
 
         this.setState({ loading: true });
         const {limitPerPage, filters, exactMatch} = this.state;
@@ -77,40 +89,40 @@ class Character extends Component {
             });
     };
 
-    moreInfo(character, e){
+    moreInfo = (character, e) => {
         // this.props.history.push('/characters/' + character.id);
-    }
+    };
 
-    handleNameChange (evt) {
-        this.setState({filters: {...this.state.filters, name: evt.target.value} });
-    }
+    handleNameChange = (event) => {
+        this.setState({filters: {...this.state.filters, name: event.target.value} });
+    };
 
-    handleSelectChange (event) {
+    handleSelectChange = (event) => {
         this.setState({...this.state, limitPerPage: event.target.value});
         this.search({limitPerPage: event.target.value });
-    }
+    };
 
-    handleSelectOrderByChange(event){
+    handleSelectOrderByChange = (event) => {
         this.setState({...this.state, sortName: event.target.value});
         this.search({sortName: event.target.value});
-    }
+    };
 
-    handleNextPages(maxPage){
+    handleNextPages = (maxPage) => {
         this.handlePageChange(maxPage + 1);
-    }
+    };
 
-    handlePreviousPages(minPage){
+    handlePreviousPages = (minPage) => {
         if (minPage > 1) {
             this.handlePageChange(minPage - 1)
         }
-    }
+    };
 
-    handlePageChange(page){
+    handlePageChange = (page) => {
         this.setState({...this.state, page});
         this.search({page});
-    }
+    };
 
-    createListCharacters(){
+    createListCharacters = () => {
 
         const { data } = this.state;
         return( data.map((character) =>
