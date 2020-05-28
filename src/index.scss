@@ -1,0 +1,54 @@
+@import "./assets/scss/variables";
+
+*, *::before, *::after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    overflow: hidden;
+}
+
+body {
+    font-family: $primary-font;
+    font-size: 14px;
+    color: $font-color;
+    line-height: 1.5;
+    // background: $white-color;
+    padding: 0;
+    margin: 0;
+}
+
+.ant-layout-header {
+    padding: 0 3px !important;
+}
+
+.hide{display: none !important;}
+
+.not-found-result {
+    border: 1px solid $red;
+    padding: 20px 20px;
+    font-size: 18px;
+    color: $yellow;
+}
+
+.container-spin {
+    position: relative;
+    height: 100%;
+    left: -52px;
+
+    .ant-spin {
+        top: 35%;
+        position: absolute;
+        left: 37%;
+        font-size: 20px;
+        font-weight: 800;
+    }
+}
+
+@media only screen and (max-width: 495px){
+    .ant-layout-content {padding: 5px 20px !important;}
+}

@@ -1,22 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './main/app';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import Reducers from './reducers';
-import registerServiceWorker from './registerServiceWorker';
 
-// const devTools = window._REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
-// const store = createStore(Reducers, devTools);
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
 
-const store = createStore(Reducers);
+import configureStore from './core/store/configureStore';
 
-// ReactDOM.render(<App />, document.getElementById('root'));
+import App from './app/app';
+import 'antd/dist/antd.css';
+import './index.scss';
+
+const store = configureStore();
+
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+      <App/>
     </Provider>,
-    document.getElementById('root'));
-
-registerServiceWorker();
+    document.getElementById('root')
+);

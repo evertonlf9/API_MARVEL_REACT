@@ -1,0 +1,74 @@
+@import '../../assets/scss/variables';
+
+#home-component {
+    width: 100%;
+    height: calc(100vh - 20px);
+    overflow: hidden;
+    text-align: center;
+
+    .ant-spin {
+        position: relative !important;
+        top: 45%;
+    }
+
+    .button-start {
+        width: 260px;
+        background-color: transparent;
+        color: white;
+        font-size: 22px;
+        cursor: pointer;
+        overflow: hidden;
+        margin: 0 auto;
+        text-align: center;
+        border-radius: 5px;
+
+        transform-origin: left top;
+        transform: scale(0.1);
+        animation: scale 1500ms ease-in-out forwards;
+
+        span {
+            top: -5px;
+            position: relative;
+        }
+    }
+
+    video {
+        width: 99%;
+        padding: 30px 0px 10px;
+    }
+
+    @keyframes scale {
+        to {
+            transform: scale(1);
+        }
+    }
+
+}
+
+.section__logo {
+  width: 30rem;
+  margin-bottom: 1rem;
+
+  @media screen and (max-width: $break-extra-small)  {
+    width: 18rem;
+  }
+}
+
+@media screen and (max-height: 400px) {
+    .button-start {
+        top: -67px !important;
+    }
+}
+
+@media screen and (max-width: $break-extra-small) {
+    .container-header {
+        max-width: 280px !important;
+        margin-top: 3% !important;
+
+        .container-title {
+            border: none !important;
+            display: initial;
+        }
+    }
+}
+

@@ -1,0 +1,30 @@
+#events-component {
+    width: 100%;
+    height: calc(100vh - 20px);
+
+    .ant-layout {
+        width: 100%;
+    }
+
+    .site-layout-content {
+        background: #fff;
+        padding: 24px;
+        height: calc(100vh - 132px);
+    }
+
+    #components-layout-demo-top .logo {
+        width: 120px;
+        height: 31px;
+        background: rgba(255, 255, 255, 0.2);
+        margin: 16px 24px 16px 0;
+        float: left;
+    }
+
+    .ant-layout-footer {
+        line-height: 0.8;
+        color: #fff;
+        background-color: #222;
+        text-align: center;
+        padding: 10px 50px;
+    }
+}

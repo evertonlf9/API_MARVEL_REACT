@@ -1,0 +1,18 @@
+#not-found-component {
+    width: 100%;
+    height: calc(100vh - 20px);
+
+    .site-layout-content {
+        background: #fff;
+        padding: 24px;
+        height: calc(100vh - 132px);
+    }
+
+    .ant-layout-footer {
+        line-height: 0.8;
+        color: #fff;
+        background-color: #222;
+        text-align: center;
+        padding: 10px 50px;
+    }
+}
