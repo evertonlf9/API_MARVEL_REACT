@@ -6,9 +6,15 @@
     overflow: hidden;
     text-align: center;
 
-    .ant-spin {
-        position: relative !important;
-        top: 45%;
+    .container-spin {
+        left: 0 !important;
+        justify-content: center;
+
+        .ant-spin {
+            position: relative !important;
+            top: 45%;
+            left: 0;
+        }
     }
 
     .button-start {
