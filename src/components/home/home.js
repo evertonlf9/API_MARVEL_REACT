@@ -31,7 +31,8 @@ const Home = (props) => {
   const onTimeUpdateCapture = ()=> {
     const video = document.getElementById("video-element");
 
-    if(video.currentTime >= 26.88009) {
+    if(video.currentTime >= 26.5) {
+      console.log(video.currentTime)
       video.pause();
       setFinished(true);
     }
