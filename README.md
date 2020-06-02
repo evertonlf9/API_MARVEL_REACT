@@ -24,12 +24,11 @@ O principal objetivo do desafio é o desenvolvimento de uma aplicação que exib
 
 - CSS
   - [SCSS](https://sass-lang.com/)
-  - [Parallax Star](https://codepen.io/saransh/pen/BKJun) 
   
 - JavaScript
   - Javascript
   - React 
-  - Ant Design 
+  - [Ant Design](https://ant.design/) 
 
 ### Documentação API Marvel
 A documentação da API utilizada para obter os dados está disponível em: [Marvel](https://developer.marvel.com/docs#!/public/getCreatorCollection_get_12).
