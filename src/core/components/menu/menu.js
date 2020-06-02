@@ -10,6 +10,10 @@ const MenuComponent = (props) => {
   const {push} = history;
 
   useEffect(() => {    
+    if(props.match.path.split('/')[1] === "") {
+      setCurrentPage('home');
+      return;
+    }
     setCurrentPage(props.match.path.split('/')[1]);
   }, []);
 
