@@ -2,7 +2,7 @@
 
 #home-component {
     width: 100%;
-    height: calc(100vh - 20px);
+    height: calc(100vh - 0px);
     overflow: hidden;
     text-align: center;
 
@@ -17,7 +17,13 @@
         }
     }
 
+    .ant-layout-content {
+        height: calc(100vh - 95px);
+        background-color: black;
+    }
+
     .button-start {
+        top: -16px;
         width: 260px;
         background-color: transparent;
         color: white;
@@ -43,6 +49,14 @@
         padding: 30px 0px 10px;
     }
 
+    .ant-layout-footer {
+        line-height: 0.8;
+        color: #fff;
+        background-color: #222;
+        text-align: center;
+        padding: 10px 50px;
+    }
+
     @keyframes scale {
         to {
             transform: scale(1);
@@ -61,12 +75,25 @@
 }
 
 @media screen and (max-height: 400px) {
+    #home-component video {
+        padding: 0px 0px 5px;
+    }
+
     .button-start {
         top: -67px !important;
+    }
+
+    .ant-layout-header {
+        height: 45px !important;
     }
 }
 
 @media screen and (max-width: $break-extra-small) {
+
+    .button-start {
+        top: 0 !important;
+    }
+
     .container-header {
         max-width: 280px !important;
         margin-top: 3% !important;

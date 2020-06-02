@@ -10,7 +10,7 @@ import ListComponent from '../../core/components/list/list';
 
 import './comics.scss';
 
-const { Header, Content, Footer } = Layout;
+const { Header, Footer } = Layout;
 
 const Comics = (props) => {
     const [paginate, setPaginate] = useState('');

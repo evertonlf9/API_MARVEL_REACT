@@ -10,7 +10,7 @@ import ListComponent from '../../core/components/list/list';
 
 import './creators.scss';
 
-const { Header, Content, Footer } = Layout;
+const { Header, Footer } = Layout;
 
 const Creators = (props) => {
     const [paginate, setPaginate] = useState('');

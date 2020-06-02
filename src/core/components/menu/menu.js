@@ -23,10 +23,10 @@ const MenuComponent = (props) => {
     push(page.key);
   }  
 
-  const menu = () => {
+  const menu = (type) => {
     return (
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['/' + currentPage]}>
-        <Menu.Item key="/" onClick={handlerNextPage} onKeyPress={handlerKeyPressNextPage} tabIndex='0'><HomeOutlined/>Home</Menu.Item>
+      <Menu theme="dark" mode={type} selectedKeys={'/' + currentPage}>
+        <Menu.Item key="/home" onClick={handlerNextPage} onKeyPress={handlerKeyPressNextPage} tabIndex='0'><HomeOutlined /> Home</Menu.Item>
         <Menu.Item key="/characters" onClick={handlerNextPage} onKeyPress={handlerKeyPressNextPage} tabIndex='0'><TeamOutlined /> Personagens</Menu.Item>
         <Menu.Item key="/comics" onClick={handlerNextPage} onKeyPress={handlerKeyPressNextPage} tabIndex='0'><ReadOutlined />Quadrinhos</Menu.Item>
         <Menu.Item key="/series" onClick={handlerNextPage} onKeyPress={handlerKeyPressNextPage} tabIndex='0'><VideoCameraOutlined />Série</Menu.Item>
@@ -37,12 +37,11 @@ const MenuComponent = (props) => {
   }
   
   const render = () => {
-    console.log(currentPage)
     return (
         <div id="menu-component">
-          {menu()}     
+          {menu('horizontal')}     
 
-          <Dropdown overlay={menu} placement="bottomLeft">
+          <Dropdown overlay={menu.bind(this, "")} placement="bottomLeft">
             <Button><MenuOutlined /></Button>
           </Dropdown>
 

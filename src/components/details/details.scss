@@ -1,6 +1,11 @@
 #deails-component {
     width: 100%;
     height: calc(100vh - 0px);
+
+    .container-layout-content {
+        height: calc(100vh - 95px);
+        overflow: auto;
+    }
     
 
     .ant-layout {
@@ -27,6 +32,19 @@
         flex-wrap: wrap;
         justify-content: center;
         height: 100%;
+
+        .container-description {
+            background-color: #f7f8fa;
+            padding: 10px 10px;
+        }
+
+        .ant-card-body {
+            display: none;
+        }
+
+        .ant-card img {
+            max-height: 450px;
+        }
     }
 
     .ant-layout-footer {

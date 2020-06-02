@@ -10,7 +10,7 @@ import ListComponent from '../../core/components/list/list';
 
 import './events.scss';
 
-const { Header, Content, Footer } = Layout;
+const { Header, Footer } = Layout;
 
 const Events = (props) => {
     const [paginate, setPaginate] = useState('');

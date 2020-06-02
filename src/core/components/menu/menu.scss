@@ -52,6 +52,26 @@
             h2 { display: none; }
         }
     }
+    
+
+    @media screen and (max-height: 400px) {
+    
+        .ant-btn {
+            top: 8px;
+        }
+
+        .container-logo {
+            .logo {
+                height: 43px;
+                margin: 1px 0;
+            }
+
+            h2 {
+                top: -9px;
+                position: relative;
+            }
+        }
+    }
 
 }
 

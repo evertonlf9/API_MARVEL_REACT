@@ -21,6 +21,7 @@ function App(props) {
         <>
           <Switch>
             <Route exact path="/" render={props => <Home match={props.match} {...props}/>} />
+            <Route exact path="/home" render={props => <Home match={props.match} {...props}/>} />
             <Route path="/characters" render={props => <Characters match={props.match} {...props}/>} />
             <Route path="/comics" render={props => <Comics match={props.match} {...props}/>} />
             <Route path="/series" render={props => <Series match={props.match} {...props}/>} />

@@ -11,7 +11,7 @@ const { Meta } = Card;
 
 const ListComponent = (props) => {
     const [searchText, setSearchText] = useState('');
-    const {loading, getData, data, total, type, history, paginate} = props;
+    const {loading, getData, data, total, history, paginate} = props;
     const {push} = history;
 
     useEffect(() => {  
