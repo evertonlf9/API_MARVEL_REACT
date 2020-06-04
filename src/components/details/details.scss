@@ -1,3 +1,5 @@
+@import '../../assets/scss/variables';
+
 #deails-component {
     width: 100%;
     height: calc(100vh - 0px);
@@ -24,13 +26,6 @@
     }
 
     .container {
-        background: #fff;
-        width: 100%;
-        padding: 20px 20px;
-        overflow: auto;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
         height: 100%;
 
         .container-description {
@@ -53,5 +48,12 @@
         background-color: #222;
         text-align: center;
         padding: 10px 50px;
+    }
+
+    @media screen and (max-width: $break-extra-small) {
+
+        .ant-card img {
+            max-height: 202px!important;
+        }
     }
 }

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Layout, Spin, Card, Tooltip, Descriptions } from 'antd';
-// import { SearchOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Layout, Spin, Card, Tooltip, Descriptions, Row, Col } from 'antd';
 
 import EmptyComponent from '../../core/components/empty/empty';
 
@@ -169,8 +168,16 @@ const Deails = (props) => {
 
                                 {(!loading && results && results.length > 0) &&
                                     <>
+                                                                                
                                         {renderCard()}
                                         {renderDescription(results[0])}
+
+                                        <Row>
+                                            <Col span={24}>
+                                                <img src="../../assets/images/marvel.jpg" style={{maxWidth: 350}}/>
+                                            </Col>
+                                        </Row>
+                                        
                                     </>
                                 }
 
