@@ -1,4 +1,4 @@
-# Projeto Star Wars
+# Projeto - api-Marvel-React
 
 React version 16.13.1
 
